@@ -3,10 +3,12 @@ dotenv.config();
 import app from "./app";
 import {Request, Response} from "express";
 import { success } from "./utils/response";
+import connectDB from "./utils/connectDb";
 
 
 const PORT = process.env.PORT || 3000;
 
+connectDB();
 
 app.get("/", (req: Request, res: Response) => {
     const response = success("Welcome to the Server", 200);
