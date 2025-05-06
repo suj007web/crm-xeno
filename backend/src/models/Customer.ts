@@ -7,6 +7,7 @@ const CustomerSchema = new Schema<ICustomer>({
   email: { type: String, required: true },
   phone: String,
   location: String,
+  externalId: { type: String, index: true, sparse: true },
 }, { timestamps: true });
 
 export default model<ICustomer>('Customer', CustomerSchema);

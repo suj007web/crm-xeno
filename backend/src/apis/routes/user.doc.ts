@@ -30,3 +30,29 @@
  *       500:
  *         description: Internal server error
  */
+
+
+/**
+ * @openapi
+ * /api/users/getUserByEmail:
+ *   get:
+ *     summary: Get user by email
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: email
+ *           description: The email of the user to retrieve
+ *     responses:
+ *       200:
+ *         description: User fetched successfully
+ *       400:
+ *        description: Bad request, email is required
+ *       404:
+ *        description: User not found   
+ */
+ 

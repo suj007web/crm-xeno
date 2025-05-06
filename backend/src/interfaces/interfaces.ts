@@ -1,9 +1,20 @@
 import { Types } from 'mongoose';
-
+import { Request } from 'express';
 export type LogicType = 'AND' | 'OR';
 export type DeliveryStatus = 'success' | 'failed';
 export type CampaignStatus = 'draft' | 'sent' | 'error';
 
+
+export interface AuthenticatedUser {
+  id: string; 
+  email: string;
+  name: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: AuthenticatedUser;
+  file?: Express.Multer.File; 
+}
 export interface Condition {
   field: string;
   op: string;
@@ -20,22 +31,25 @@ export interface IUser {
   updatedAt?: Date;
 }
 
-export interface ICustomer {
+export interface ICustomer  {
   _id?: Types.ObjectId;
   userId: Types.ObjectId;
   name: string;
   email: string;
   phone?: string;
   location?: string;
+  externalId?: string; 
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface IOrder {
   _id?: Types.ObjectId;
+  userId: Types.ObjectId;
   customerId: Types.ObjectId;
   amount: number;
   items?: string[];
+  externalId?: string;
   orderDate: Date;
   createdAt?: Date;
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { error, success } from '../../utils/response';
-import { createUserService } from '../services/user.service';
+import { createUserService, getUserByEmailService } from '../services/user.service';
 import { OAuth2Client } from 'google-auth-library';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -36,4 +36,20 @@ export async function createUser(req : Request){
         message: "User LoggedIn successfully",
         user : newUser
     }, 201);
+}
+
+export async function getUserByEmail(req : Request){
+    const { email } = req.query;
+    console.log(email);
+    if (!email) {
+        return error("Email is required", 400);
+    }
+    const user = await getUserByEmailService(email as string);
+    if(!user){
+        return error("User not found", 404);
+    }
+    return success({
+        message: "User fetched successfully",
+        user : user
+    }, 200);
 }

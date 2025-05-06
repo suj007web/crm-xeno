@@ -22,3 +22,11 @@ export async function createUserService(email: string, name: string, provider: s
       return savedUser;
 
 }
+
+export async function getUserByEmailService(email: string) {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+        return null;
+    }
+    return user;
+}

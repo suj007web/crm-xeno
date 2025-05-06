@@ -10,6 +10,15 @@ const options: swaggerJsdoc.Options = {
       version: '1.0.0',
       description: 'API documentation for ingesting customers and orders',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT', // optional
+        },
+      },
+    },
     servers: [
       {
         url: `http://localhost:${process.env.PORT || 8000}`,
