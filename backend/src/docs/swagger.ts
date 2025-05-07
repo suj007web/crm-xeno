@@ -6,9 +6,9 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Xeno Data Ingestion API',
+      title: 'Xeno CRM API',
       version: '1.0.0',
-      description: 'API documentation for ingesting customers and orders',
+      description: 'API documentation for ingesting customers and orders and managing users',
     },
     components: {
       securitySchemes: {
@@ -25,7 +25,7 @@ const options: swaggerJsdoc.Options = {
       },
     ],
   },
-  apis: ['./src/apis/routes/*.ts', './src/apis/routes/*.doc.ts'], // Path to the API routes with JSDoc
+  apis: ['./src/apis/routes/*.ts', './src/docs/*.doc.ts'], // Path to the API routes with JSDoc
 };
 
 const swaggerSpec = swaggerJsdoc(options);

@@ -124,7 +124,7 @@ const Option = ({
 
 }) => {
 
-  const router = useRouter();
+
   return (
     
     <>
