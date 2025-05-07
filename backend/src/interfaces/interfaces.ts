@@ -70,6 +70,7 @@ export interface ICampaign {
   message: string;
   intent?: string;
   ruleId: Types.ObjectId;
+  customerIds?: Types.ObjectId[];
   status: CampaignStatus;
   sentAt?: Date;
   createdAt?: Date;

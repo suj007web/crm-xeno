@@ -15,9 +15,6 @@ export async function createUserService(email: string, name: string, provider: s
         avatarUrl,
       });
 
-
-    
-    
       const savedUser = await user.save();
       return savedUser;
 

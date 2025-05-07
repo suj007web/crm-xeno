@@ -1,3 +1,9 @@
+/**
+ * @openapi
+ * tags:
+ *   name: Data Upload
+ *   description: API for ingesting customer and order data via CSV files
+ */
 
 
 /**

@@ -1,3 +1,11 @@
+/**
+ * @openapi
+ * tags:
+ *   name: Users
+ *   description: API for managing user data
+ */
+
+
 
 /**
  * @openapi

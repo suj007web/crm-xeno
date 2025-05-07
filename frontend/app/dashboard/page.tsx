@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useIsMobile from '../hooks/useMobile';
 import useAuthStore from '../store/useAuthStore';
 import Image from 'next/image';
@@ -7,16 +7,30 @@ import { useRouter } from 'next/navigation';
 import { TextShimmer } from '@/components/ui/text-shimmer';
 import { WorldMap } from '@/components/ui/world-map';
 import '@ant-design/v5-patch-for-react-19';
+import { Spin } from 'antd';
 const Page = () => {
     const isMobile = useIsMobile();
+    const [currUser, setCurrUser] = useState<any>(null);
     const {isLoggedIn, user} = useAuthStore();
-
     const router = useRouter();
-    useEffect(()=>{
-        if (isLoggedIn === false) { 
-            router.push('/');
+
+    useEffect(() => {
+      const token = sessionStorage.getItem('googleIdToken');
+      if (!isLoggedIn && token) {
+        
+        const storedUser = sessionStorage.getItem('user');
+        if (storedUser) {
+          useAuthStore.setState({
+            isLoggedIn: true,
+            user: JSON.parse(storedUser),
+          });
         }
-    }, [isLoggedIn, router])
+        
+      } else if (!token) {
+        router.push('/');
+      }
+    }, []);
+    
 
 
     if (isMobile) {
@@ -25,6 +39,13 @@ const Page = () => {
           Please switch to a desktop device for the best experience.
         </div>
       );
+    }
+
+    if(!user){
+      return <div className='h-screen flex items-center px-10 justify-center text-xl'>
+        <Spin size="large" />
+
+      </div>
     }
   return (
     <div className='h-screen flex  px-10 justify-center text-xl overflow-hidden'>

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, message, Upload } from 'antd';
-import { Table, Tag, Image, Spin } from 'antd';
+import { Table, Spin } from 'antd';
 
 
 const Page = () => {
@@ -13,12 +13,18 @@ const Page = () => {
 
     useEffect(() =>{
         const token = sessionStorage.getItem('googleIdToken');
+        console.log(token, "token"); 
         if (token) {
             setAuthToken(token);
         } else {
             console.error('No auth token found');
         }
     }, [])
+    useEffect(() => {
+        if (authToken) {
+            getAllCustomers();
+        }
+    }, [authToken]);
     const getAllCustomers = async ()=>{
         try{
             setLoading(true);
@@ -33,7 +39,7 @@ const Page = () => {
         if (data.success) {
             setCustomers(data.response.customers);
         } else {
-            console.error('Error fetching customers:', data.message);
+            console.error('Error fetching customers:', data.response.message);
         }
         console.log(data);
         setLoading(false);
@@ -89,6 +95,17 @@ const Page = () => {
           dataIndex: "externalId",
           key: "externalId",
         },
+        {
+            title : "Edit",
+            key : "edit",
+            render: (_:string , record: any) =>{
+                return (
+                    <Button type='primary' onClick={() => {
+                        console.log(record);
+                    }} >Edit</Button>
+                )
+            }
+        }
       ];
 
 
@@ -102,7 +119,10 @@ const Page = () => {
         </div>
         <div className="mt-10">
         {loading ? (
-          <Spin size="large" />
+          <div className='flex justify-center items-center h-64'>
+
+            <Spin size="large" />
+          </div>
         ) : (
           <Table
             columns={columns}

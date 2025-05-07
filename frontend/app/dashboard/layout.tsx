@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import useIsMobile from "../hooks/useMobile";
 import useAuthStore from "../store/useAuthStore";
 import { log } from "console";
+import { FaLessThan } from "react-icons/fa";
+import { HiSpeakerphone } from "react-icons/hi";
 
 export default function Example({children } : {children: React.ReactNode}) {
   const isMobile = useIsMobile();
@@ -81,6 +83,22 @@ const Sidebar = () => {
         setSelected={setSelected}
         open={open}
         href="/dashboard/orders"
+        />
+        <Option
+        Icon = {FaLessThan}
+        title="Segment Rules"
+        selected={selected}
+        setSelected={setSelected}
+        open={open}
+        href="/dashboard/segment-rules"
+        />
+        <Option
+        Icon = {HiSpeakerphone}
+        title="Campaign"
+        selected={selected}
+        setSelected={setSelected}
+        open={open}
+        href="/dashboard/campaign"
         />
 
        
