@@ -100,6 +100,14 @@ const Sidebar = () => {
         open={open}
         href="/dashboard/campaign"
         />
+        <Option
+        Icon = {HiSpeakerphone}
+        title="Campaign History"
+        selected={selected}
+        setSelected={setSelected}
+        open={open}
+        href="/dashboard/campaigns"
+        />
 
        
                 <Option
