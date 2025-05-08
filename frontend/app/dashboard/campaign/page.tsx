@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Select, message } from "antd";
+import { BsStars } from "react-icons/bs";
 
 const { Option } = Select;
 
@@ -9,6 +10,8 @@ const Page = () => {
   const [segmentRules, setSegmentRules] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [customers, setCustomers] = useState<any[]>([]);
+
+  const [form] = Form.useForm();
   useEffect(() => {
     const fetchSegmentRules = async () => {
       try {
@@ -59,6 +62,39 @@ const Page = () => {
     fetchCustomers();
   }, []);
   
+  const generateGeminiMessage = async()=>{
+    console.log("Generating message...");
+    const {name, ruleId} = form.getFieldsValue();
+    const rule = segmentRules.find((rule) => rule._id === ruleId);
+    const sanitizedRule = rule?.conditions.map((condition : any ) =>{
+      return condition.field + " " + condition.op + " " + condition.value
+    }).join( " " + rule.logicType + " ")
+    console.log("Sanitized Rule: ", sanitizedRule);
+    const response = await fetch(`/api/generateGeminiMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        rule: sanitizedRule,
+      }),
+    })
+
+    const data = await response.json();
+    if (data.success) {
+      console.log(data.message);
+      const aiMessage = String(data.message);
+      form.setFieldsValue({ message: aiMessage });
+      console.log(form.getFieldValue('message'), "updatedAt from");
+
+      message.success("Message generated successfully!");
+
+    }
+    else {
+      message.error("Failed to generate message.");
+    }
+  }
 
   // Handle form submission
   const handleSubmit = async (values: any) => {
@@ -90,7 +126,7 @@ const Page = () => {
     <div className="h-screen flex flex-col px-10 mt-10 text-xl">
       <h1 className="text-5xl font-bold">Create Campaign</h1>
       <div className="mt-5">
-        <Form layout="vertical" onFinish={handleSubmit}>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
             label="Campaign Name"
             name="name"
@@ -137,8 +173,15 @@ const Page = () => {
             name="message"
             rules={[{ required: true, message: "Please enter a message" }]}
           >
-            <Input.TextArea rows={4} placeholder="Enter personalized message" />
+            <Input.TextArea rows={4}
+            value={form.getFieldValue('message')}
+            onChange={(e) => form.setFieldsValue({ message: e.target.value })}
+            placeholder="Enter personalized message" />
           </Form.Item>
+            <Button type="primary" onClick={generateGeminiMessage} className="mb-2">
+              Generate By AI
+              <BsStars/>
+            </Button>
 
           <Form.Item
             label="Intent (Optional)"
