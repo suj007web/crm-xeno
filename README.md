@@ -33,7 +33,7 @@ This project is a Mini CRM Platform built as part of the Xeno SDE Internship Ass
 
 ## Demo Video
 
-[Demo Video Link](https://www.youtube.com/) 
+[Demo Video Link](https://youtu.be/DzXMvPxYn38) 
 
 ---
 
